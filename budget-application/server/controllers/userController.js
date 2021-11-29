@@ -1,4 +1,7 @@
 const { User } = require("../models");
+const { Op } = require("sequelize");
+const { comparePassword } = require("../helpers/bcrypt");
+const { createToken } = require("../helpers/jwt");
 
 class UserController {
   static async register(req, res, next) {
@@ -14,8 +17,35 @@ class UserController {
 
   static async login(req, res, next) {
     try {
+      const { email, password } = req.body;
+
+      const result = await User.findOne({
+        where: {
+          [Op.or]: [{ email: email || null }, { username: email || null }],
+        },
+      });
+
+      if (!result) {
+        throw { name: "Invalid" };
+      }
+
+      const isValid = comparePassword(password, result.password);
+
+      if (!isValid) {
+        throw { name: "Invalid" };
+      }
+
+      const payload = {
+        id: result.id,
+        name: result.name,
+        email: result.email,
+        username: result.username,
+      };
+
+      const access_token = createToken(payload);
+      res.status(200).json({ access_token });
     } catch (err) {
-      console.log(err);
+      next(err);
     }
   }
 }

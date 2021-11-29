@@ -19,9 +19,17 @@ class UserController {
     try {
       const { email, password } = req.body;
 
+      if (!email) {
+        throw { name: "loginEmailEmpty" };
+      }
+
+      if (!password) {
+        throw { name: "loginPasswordEmpty" };
+      }
+
       const result = await User.findOne({
         where: {
-          [Op.or]: [{ email: email || null }, { username: email || null }],
+          [Op.or]: [{ email }, { username: email }],
         },
       });
 

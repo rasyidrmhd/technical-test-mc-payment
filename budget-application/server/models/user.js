@@ -1,10 +1,12 @@
 "use strict";
 const { Model } = require("sequelize");
+const { hashPassword } = require("../helpers/bcrypt");
+
 module.exports = (sequelize, DataTypes) => {
-  class user extends Model {
+  class User extends Model {
     static associate(models) {}
   }
-  user.init(
+  User.init(
     {
       username: {
         type: DataTypes.STRING,
@@ -58,7 +60,7 @@ module.exports = (sequelize, DataTypes) => {
             msg: "Password can't be empty",
           },
           minLength(value) {
-            if (this.password.length <= 8) {
+            if (this.password.length < 8) {
               throw new Error("Password length minimal is 8 character");
             }
           },
@@ -66,9 +68,14 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
+      hooks: {
+        beforeCreate: (user, options) => {
+          user.password = hashPassword(user.password);
+        },
+      },
       sequelize,
-      modelName: "user",
+      modelName: "User",
     }
   );
-  return user;
+  return User;
 };

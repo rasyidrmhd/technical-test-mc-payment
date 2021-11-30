@@ -11,11 +11,20 @@ const errorHandler = (err, req, res, next) => {
     case "loginPasswordEmpty":
       res.status(400).json({ message: "Password is required" });
       break;
-    case "Invalid":
+    case "InvalidAmount":
+      res.status(400).json({ message: "Amount is invalid" });
+      break;
+    case "insufficientBalance":
+      res.status(400).json({ message: "Your balance is not enough" });
+      break;
+    case "invalid":
       res.status(401).json({ message: "Incorrect email / username or password" });
       break;
     case "JsonWebTokenError":
       res.status(401).json({ message: "You must login first" });
+      break;
+    case "transactionNotFound":
+      res.status(404).json({ message: "Transaction not found" });
       break;
     default:
       res.status(500).json({ message: "Internal Server Error" });

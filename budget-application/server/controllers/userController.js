@@ -34,13 +34,13 @@ class UserController {
       });
 
       if (!result) {
-        throw { name: "Invalid" };
+        throw { name: "invalid" };
       }
 
       const isValid = comparePassword(password, result.password);
 
       if (!isValid) {
-        throw { name: "Invalid" };
+        throw { name: "invalid" };
       }
 
       const payload = {
@@ -60,7 +60,11 @@ class UserController {
   static async getUserData(req, res, next) {
     try {
       let balance = 0;
-      const getLastBalance = await Transaction.findAll({ where: { UserId: req.user.id }, order: [["id", "DESC"]], limit: 1 });
+      const getLastBalance = await Transaction.findAll({
+        where: { UserId: req.user.id },
+        order: [["id", "DESC"]],
+        limit: 1,
+      });
 
       if (getLastBalance[0]) {
         balance = getLastBalance[0].current_balance;

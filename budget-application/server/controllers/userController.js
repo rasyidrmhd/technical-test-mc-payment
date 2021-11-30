@@ -1,4 +1,4 @@
-const { User } = require("../models");
+const { User, Transaction } = require("../models");
 const { Op } = require("sequelize");
 const { comparePassword } = require("../helpers/bcrypt");
 const { createToken } = require("../helpers/jwt");
@@ -53,6 +53,22 @@ class UserController {
       const access_token = createToken(payload);
       res.status(200).json({ access_token });
     } catch (err) {
+      next(err);
+    }
+  }
+
+  static async getUserData(req, res, next) {
+    try {
+      let balance = 0;
+      const getLastBalance = await Transaction.findAll({ where: { UserId: req.user.id }, order: [["id", "DESC"]], limit: 1 });
+
+      if (getLastBalance[0]) {
+        balance = getLastBalance[0].current_balance;
+      }
+
+      res.status(200).json({ dataUser: req.user, balance });
+    } catch (err) {
+      console.log(err);
       next(err);
     }
   }

@@ -26,3 +26,21 @@ export function register(data) {
     });
   };
 }
+
+export function login(data) {
+  return (dispatch, getState) => {
+    return new Promise((resolve, reject) => {
+      axios({
+        method: "POST",
+        url: `${server}/login`,
+        data,
+      })
+        .then((response) => {
+          resolve(response.data);
+        })
+        .catch((err) => {
+          reject(err.response.data.message);
+        });
+    });
+  };
+}

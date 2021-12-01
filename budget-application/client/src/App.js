@@ -5,20 +5,32 @@ import PrivatePage from "./navigation-guard/PrivatePage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
+import TransactionDetail from "./pages/TransactionDetail";
+import TransactionForm from "./pages/TransactionForm";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
     <>
       <Switch>
-        <PrivatePage exact path="/">
-          <Home />
-        </PrivatePage>
         <PrivateLogin path="/login">
           <Login />
         </PrivateLogin>
         <PrivateLogin path="/register">
           <Register />
         </PrivateLogin>
+        <PrivatePage path="/addTransaction">
+          <TransactionForm />
+        </PrivatePage>
+        <PrivatePage path="/transaction/:idTransaction">
+          <TransactionDetail />
+        </PrivatePage>
+        <PrivatePage exact path="/">
+          <Home />
+        </PrivatePage>
+        <Route path="*">
+          <NotFound />
+        </Route>
       </Switch>
     </>
     // <div className="App">

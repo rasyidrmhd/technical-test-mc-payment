@@ -60,6 +60,32 @@ export function fetchTransactionById(id) {
         },
       })
         .then((response) => {
+          dispatch(setTransactionById(response.data));
+        })
+        .catch((err) => {
+          reject(err.response.data.message);
+        })
+        .finally(() => {
+          dispatch(setLoading(false));
+        });
+    });
+  };
+}
+
+export function postTransaction(data) {
+  const access_token = localStorage.getItem("access_token");
+  return (dispatch, getState) => {
+    dispatchEvent(setLoading(true));
+    return new Promise((resolve, reject) => {
+      axios({
+        method: "POST",
+        url: `${server}/transaction`,
+        headers: {
+          access_token,
+        },
+        data,
+      })
+        .then((response) => {
           resolve(response.data);
         })
         .catch((err) => {

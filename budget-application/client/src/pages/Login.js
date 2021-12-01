@@ -26,7 +26,7 @@ export default function Login() {
     e.preventDefault();
     dispatch(login(inputLogin))
       .then((response) => {
-        localStorage.setItem("access_token", response);
+        localStorage.setItem("access_token", response.access_token);
         history.push("/");
       })
       .catch((err) => {
@@ -36,7 +36,6 @@ export default function Login() {
 
   return (
     <>
-      <h1>Hello from Login</h1>
       {location.state ? <span>{location.state.message}</span> : ""}
       <form onSubmit={handleSubmit}>
         <label>Username / Email</label>

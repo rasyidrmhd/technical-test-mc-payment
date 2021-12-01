@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useHistory, useLocation } from "react-router";
+import { useHistory } from "react-router";
 import { register } from "../store/actions/userAction";
 
 export default function Register() {
@@ -39,7 +39,6 @@ export default function Register() {
 
   return (
     <>
-      <h1>Hello from Register</h1>
       <form onSubmit={handleSubmit}>
         <label>Username</label> <br />
         <input type="text" placeholder="Username here" autoComplete="off" name="username" defaultValue={inputRegister.username} onChange={handleInputRegister} /> <br />

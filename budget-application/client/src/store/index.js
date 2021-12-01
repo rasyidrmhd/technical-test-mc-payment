@@ -15,5 +15,5 @@ function reducer(state = initialState, action) {
   }
 }
 
-const store = createStore(reducer, applyMiddleware(thunk));
+const store = createStore(reducers, applyMiddleware(thunk));
 export default store;

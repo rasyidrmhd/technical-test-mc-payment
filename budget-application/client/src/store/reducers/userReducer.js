@@ -1,7 +1,10 @@
 import { SET_USERDATA } from "../actionType";
 
 const initialState = {
-  userdata: {},
+  userdata: {
+    name: "acit",
+    age: 16,
+  },
 };
 
 export default function userReducer(state = initialState, action) {

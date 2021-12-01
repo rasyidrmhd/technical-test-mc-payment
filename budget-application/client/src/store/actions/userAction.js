@@ -9,7 +9,7 @@ export function setUserdata(payload) {
   };
 }
 
-export function setLoading(payload) {
+export function setLoadingUser(payload) {
   return {
     type: SET_LOADING_USER,
     payload,
@@ -18,7 +18,7 @@ export function setLoading(payload) {
 
 export function register(data) {
   return (dispatch, getState) => {
-    dispatch(setLoading(true));
+    dispatch(setLoadingUser(true));
     return new Promise((resolve, reject) => {
       axios({
         method: "POST",
@@ -32,7 +32,7 @@ export function register(data) {
           reject(err.response.data.message);
         })
         .finally(() => {
-          dispatch(setLoading(false));
+          dispatch(setLoadingUser(false));
         });
     });
   };
@@ -40,7 +40,7 @@ export function register(data) {
 
 export function login(data) {
   return (dispatch, getState) => {
-    dispatch(setLoading(true));
+    dispatch(setLoadingUser(true));
     return new Promise((resolve, reject) => {
       axios({
         method: "POST",
@@ -54,7 +54,7 @@ export function login(data) {
           reject(err.response.data.message);
         })
         .finally(() => {
-          dispatch(setLoading(false));
+          dispatch(setLoadingUser(false));
         });
     });
   };
@@ -63,7 +63,7 @@ export function login(data) {
 export function fetchUserdata() {
   const access_token = localStorage.getItem("access_token");
   return (dispatch, getState) => {
-    dispatch(setLoading(true));
+    dispatch(setLoadingUser(true));
     return new Promise((resolve, reject) => {
       axios({
         url: `${server}/userdata`,
@@ -78,7 +78,7 @@ export function fetchUserdata() {
           console.log(err);
         })
         .finally(() => {
-          dispatch(setLoading(false));
+          dispatch(setLoadingUser(false));
         });
     });
   };

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { fetchTransactions } from "../store/actions/transactionAction";
 import { fetchUserdata } from "../store/actions/userAction";
+import rupiahFormatter from "../helpers/rupiahFormatter";
 
 export default function Home() {
   const history = useHistory();
@@ -11,8 +12,8 @@ export default function Home() {
   const { transactions, isLoading: loadingTransactions } = useSelector((state) => state.transactionReducer);
 
   useEffect(() => {
-    dispatch(fetchUserdata());
     dispatch(fetchTransactions());
+    dispatch(fetchUserdata());
   }, []);
 
   return (
@@ -29,7 +30,15 @@ export default function Home() {
         Logout
       </button>
       <br />
-      <span>{loadingUser ? "Loading" : userdata.balance}</span>
+      <span>
+        {loadingUser ? (
+          "Loading"
+        ) : (
+          <>
+            <span>{rupiahFormatter(userdata.balance)}</span>
+          </>
+        )}
+      </span>
       <p>
         {loadingTransactions
           ? "Loading..."
@@ -37,7 +46,7 @@ export default function Home() {
               return (
                 <>
                   <span>
-                    {transaction.name} {transaction.amount}
+                    {transaction.name} {rupiahFormatter(transaction.amount)}
                   </span>{" "}
                   <button
                     type="button"

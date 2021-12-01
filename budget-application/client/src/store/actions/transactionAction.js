@@ -16,7 +16,7 @@ export function setTransactionById(payload) {
   };
 }
 
-export function setLoading(payload) {
+export function setLoadingTransaction(payload) {
   return {
     type: SET_LOADING_TRANSACTION,
     payload,
@@ -26,7 +26,7 @@ export function setLoading(payload) {
 export function fetchTransactions() {
   const access_token = localStorage.getItem("access_token");
   return (dispatch, getState) => {
-    dispatch(setLoading(true));
+    dispatch(setLoadingTransaction(true));
     return new Promise((resolve, reject) => {
       axios({
         url: `${server}/transaction`,
@@ -35,14 +35,13 @@ export function fetchTransactions() {
         },
       })
         .then((response) => {
-          console.log(response.data);
           dispatch(setTransactions(response.data));
         })
         .catch((err) => {
           reject(err.response.data.message);
         })
         .finally(() => {
-          dispatch(setLoading(false));
+          dispatch(setLoadingTransaction(false));
         });
     });
   };
@@ -51,7 +50,7 @@ export function fetchTransactions() {
 export function fetchTransactionById(id) {
   const access_token = localStorage.getItem("access_token");
   return (dispatch, getState) => {
-    dispatch(setLoading(true));
+    dispatch(setLoadingTransaction(true));
     return new Promise((resolve, reject) => {
       axios({
         url: `${server}/transaction/${id}`,
@@ -66,7 +65,7 @@ export function fetchTransactionById(id) {
           reject(err.response.data.message);
         })
         .finally(() => {
-          dispatch(setLoading(false));
+          dispatch(setLoadingTransaction(false));
         });
     });
   };
@@ -75,7 +74,7 @@ export function fetchTransactionById(id) {
 export function postTransaction(data) {
   const access_token = localStorage.getItem("access_token");
   return (dispatch, getState) => {
-    dispatchEvent(setLoading(true));
+    dispatch(setLoadingTransaction(true));
     return new Promise((resolve, reject) => {
       axios({
         method: "POST",
@@ -92,7 +91,7 @@ export function postTransaction(data) {
           reject(err.response.data.message);
         })
         .finally(() => {
-          dispatch(setLoading(false));
+          dispatch(setLoadingTransaction(false));
         });
     });
   };

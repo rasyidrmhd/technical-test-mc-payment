@@ -3,7 +3,14 @@ const { Transaction } = require("../models");
 class TransactionController {
   static async getTransactions(req, res, next) {
     try {
-      const transactions = await Transaction.findAll();
+      const { sort } = req.query;
+      let option = { order: [["date", "DESC"]] };
+
+      if (sort) {
+        option.order = [["date", sort]];
+      }
+
+      const transactions = await Transaction.findAll(option);
 
       res.status(200).json(transactions);
     } catch (err) {
@@ -13,9 +20,10 @@ class TransactionController {
 
   static async postTransaction(req, res, next) {
     try {
-      const { type, amount, category, note, date } = req.body;
+      const { type, amount, name, note, date } = req.body;
       let current_balance = 0;
       let previous_balance = 0;
+      let balance = 0;
 
       const getLastBalance = await Transaction.findAll({
         where: { UserId: req.user.id },
@@ -32,10 +40,10 @@ class TransactionController {
         if (previous_balance < Number(amount)) {
           throw { name: "insufficientBalance" };
         } else {
-          current_balance -= Number(amount);
+          balance = current_balance - Number(amount);
         }
       } else {
-        current_balance += Number(amount);
+        balance = current_balance + Number(amount);
       }
 
       if (amount <= 0) {
@@ -43,11 +51,11 @@ class TransactionController {
       }
 
       const createTransaction = await Transaction.create({
-        current_balance,
-        previous_balance: getLastBalance[0].current_balance,
+        current_balance: balance,
+        previous_balance: current_balance,
         type,
         amount: Number(amount),
-        category,
+        name,
         note,
         date,
         UserId: req.user.id,

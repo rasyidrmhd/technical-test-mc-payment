@@ -24,7 +24,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
-      category: {
+      name: {
         type: Sequelize.STRING,
         allowNull: false,
       },

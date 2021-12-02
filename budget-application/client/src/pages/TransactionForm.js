@@ -10,7 +10,6 @@ export default function TransactionForm() {
   const dispatch = useDispatch();
   const [type, setType] = useState("Income");
   const [inputTransaction, setInputTransaction] = useState({
-    type: "Income",
     amount: 0,
     name: "",
     note: "",
@@ -29,6 +28,7 @@ export default function TransactionForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    inputTransaction.type = type;
     dispatch(postTransaction(inputTransaction))
       .then((response) => {
         history.push("/");

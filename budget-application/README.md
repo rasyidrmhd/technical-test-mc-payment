@@ -35,6 +35,18 @@ Running the server in localhost port 3000
 
 Move to client directory
 
+### `touch .env`
+
+Create .env file and fill REACT_APP_BASE_URL environment variable with http://localhost:3000
+
 ### `npm start`
 
 Start React app in localhost port 3001
+
+## Deployment
+
+server: https://budget-application-api.herokuapp.com\
+client: https://my-budget-application.web.app
+Dummy account:\
+username: acit / email: acit@mail.com
+password: 12345678

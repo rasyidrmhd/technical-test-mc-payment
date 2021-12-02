@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
+import TransactionRow from "../components/TransactionRow";
 import { fetchTransactions } from "../store/actions/transactionAction";
 import { fetchUserdata } from "../store/actions/userAction";
 import rupiahFormatter from "../helpers/rupiahFormatter";
 import profilePic from "../assets/profile/default.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignOutAlt, faWallet, faArrowDown, faArrowUp } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 export default function Home() {
   const history = useHistory();
@@ -21,35 +23,38 @@ export default function Home() {
   }, []);
 
   return (
-    <>
-      <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item dropdown no-arrow">
-            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <span class="mr-2 text-dark">{userdata.dataUser?.name}</span>
-              <img class="img-profile rounded-circle" src={profilePic} />
-            </a>
-            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-              <a
-                class="dropdown-item"
-                href="#"
-                data-toggle="modal"
-                data-target="#logoutModal"
-                onClick={(e) => {
-                  e.preventDefault();
-                  localStorage.removeItem("access_token");
-                  history.push("/login");
-                }}
-              >
-                <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
-                Logout
-              </a>
-            </div>
-          </li>
-        </ul>
-      </nav>
+    <div style={{ paddingBottom: "10px" }}>
+      <div className="container">
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow mt-4" style={{ borderRadius: "20px" }}>
+          <Link className="text-decoration-none" to="/">
+            <h5 className="mb-0 font-weight-bolder">Budget Application</h5>
+          </Link>
 
-      <div className="container mb-5">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown no-arrow">
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 text-dark">{userdata.dataUser?.name}</span>
+                <img class="img-profile rounded-circle" src={profilePic} />
+              </a>
+              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                <a
+                  class="dropdown-item"
+                  href="#"
+                  data-toggle="modal"
+                  data-target="#logoutModal"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    localStorage.removeItem("access_token");
+                    history.push("/login");
+                  }}
+                >
+                  <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
+                  Logout
+                </a>
+              </div>
+            </li>
+          </ul>
+        </nav>
         <div className="row px-0 mb-2">
           <div className="col-xl-4 col-md-12 mb-2">
             <div className="card bg-primary shadow h-100 py-1" style={{ borderRadius: "20px" }}>
@@ -143,37 +148,22 @@ export default function Home() {
 
         <div className="mb-5">
           {transactions.map((transaction) => {
-            return (
-              <div
-                className="d-flex p-3 my-2 bg-white shadow align-items-center font-weight-bolder"
-                key={transaction.id}
-                style={{ borderRadius: "20px", cursor: "pointer" }}
-                onClick={(e) => {
-                  e.preventDefault();
-                }}
-              >
-                <div>{transaction.name}</div>
-                <div className="ml-auto d-flex flex-column align-items-end">
-                  <span className={`${transaction.type === "Income" ? "text-success" : "text-danger"}`}>{rupiahFormatter(transaction.amount)}</span>
-                  <div>{transaction.date.split("T")[0]}</div>
-                </div>
-              </div>
-            );
+            return <TransactionRow transaction={transaction} key={transaction.id} rupiahFormatter={rupiahFormatter} />;
           })}
         </div>
       </div>
 
       <div className="fixed-bottom text-center mb-2">
         <button
-          className="btn btn-primary"
+          className="btn btn-primary rounded-pill"
           onClick={(e) => {
             e.preventDefault();
             history.push("/addTransaction");
           }}
         >
-          Add New Transaction
+          New Transaction
         </button>
       </div>
-    </>
+    </div>
   );
 }

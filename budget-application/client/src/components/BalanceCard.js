@@ -5,7 +5,7 @@ export default function BalanceCard(props) {
 
   return (
     <div className={`col-xl-4 ${colMd} mb-2`}>
-      <div className={`card ${bg} shadow h-100 py-1`} style={{ borderRadius: "20px" }}>
+      <div className={`card ${bg} shadow h-100 py-1 custom-border-20`}>
         <div className="card-body text-white">
           <div className="row no-gutters align-items-center">
             <div className="col mr-2">

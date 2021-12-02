@@ -37,7 +37,7 @@ export default function Login() {
   return (
     <div className="row justify-content-center align-items-center" style={{ minHeight: "100vh", width: "100vw" }}>
       <div className="col-md-5 col-10">
-        <div className="card o-hidden border-0 shadow-lg" style={{ borderRadius: "20px" }}>
+        <div className="card o-hidden border-0 shadow-lg custom-border-20">
           <div className="card-body p-0">
             <div className="p-5">
               <div className="text-center">

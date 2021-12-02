@@ -1,5 +1,6 @@
 import "./assets/css/fontfamily.css";
 import "./assets/css/index.min.css";
+import "./assets/css/custom.css";
 import { Switch, Route } from "react-router";
 import PrivateLogin from "./navigation-guard/PrivateLogin";
 import PrivatePage from "./navigation-guard/PrivatePage";

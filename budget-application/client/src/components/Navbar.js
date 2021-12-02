@@ -9,7 +9,7 @@ export default function Navbar(props) {
 
   return (
     <>
-      <nav className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow mt-4" style={{ borderRadius: "20px" }}>
+      <nav className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow mt-4 custom-border-20">
         <Link className="text-decoration-none" to="/">
           <h5 className="mb-0 font-weight-bolder">Budget Application</h5>
         </Link>

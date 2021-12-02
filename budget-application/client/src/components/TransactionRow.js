@@ -7,8 +7,8 @@ export default function TransactionRow(props) {
 
   return (
     <div
-      className={`d-flex p-3 border-left-${transaction.type === "Income" ? "success" : "danger"} my-2 bg-white shadow align-items-center font-weight-bolder`}
-      style={{ borderRadius: "20px", cursor: "pointer" }}
+      className={`d-flex p-3 border-left-${transaction.type === "Income" ? "success" : "danger"} my-2 bg-white shadow align-items-center font-weight-bolder custom-border-20`}
+      style={{ cursor: "pointer" }}
       onClick={(e) => {
         e.preventDefault();
         dispatch(fetchTransactionById(transaction.id));

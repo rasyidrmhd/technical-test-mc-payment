@@ -48,8 +48,7 @@ export default function Home() {
                     setFilter("all");
                     dispatch(fetchTransactions());
                   }}
-                  className={`btn btn-dark shadow-none border-0 ${filter === "all" ? "active" : ""}`}
-                  style={{ borderRadius: "20px 0 0 20px" }}
+                  className={`btn btn-dark shadow-none border-0 button-group-left ${filter === "all" ? "active" : ""}`}
                 >
                   All
                 </button>
@@ -71,8 +70,7 @@ export default function Home() {
                     setFilter("expenses");
                     dispatch(fetchTransactions({ type: "Expenses" }));
                   }}
-                  className={`btn btn-dark shadow-none border-0 ${filter === "expenses" ? "active" : ""}`}
-                  style={{ borderRadius: "0 20px 20px 0" }}
+                  className={`btn btn-dark shadow-none border-0 button-group-right ${filter === "expenses" ? "active" : ""}`}
                 >
                   Expenses
                 </button>
@@ -88,8 +86,7 @@ export default function Home() {
                     setSort("DESC");
                     dispatch(fetchTransactions({ sort: "DESC" }));
                   }}
-                  className={`btn btn-info shadow-none border-0 ${sort === "DESC" ? "active" : ""}`}
-                  style={{ borderRadius: "20px 0 0 20px" }}
+                  className={`btn btn-info shadow-none border-0 button-group-left ${sort === "DESC" ? "active" : ""}`}
                 >
                   Newest
                 </button>
@@ -100,8 +97,7 @@ export default function Home() {
                     setSort("ASC");
                     dispatch(fetchTransactions({ sort: "ASC" }));
                   }}
-                  className={`btn btn-info shadow-none border-0 ${sort === "ASC" ? "active" : ""}`}
-                  style={{ borderRadius: "0 20px 20px 0" }}
+                  className={`btn btn-info shadow-none border-0 button-group-right ${sort === "ASC" ? "active" : ""}`}
                 >
                   Oldest
                 </button>
@@ -119,11 +115,11 @@ export default function Home() {
 
       <div className="modal fade" id="transactionDetail" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog modal-dialog-centered" role="document">
-          <div className="modal-content border-0" style={{ borderRadius: "20px", backgroundColor: "#ede9f0" }}>
+          <div className="modal-content border-0 custom-border-20" style={{ backgroundColor: "#ede9f0" }}>
             <div className="modal-header border-0">
               <h5 className="modal-title font-weight-bolder">Transaction Detail</h5>
             </div>
-            <div className="modal-body mx-3 bg-white font-weight-bolder" style={{ borderRadius: "20px" }}>
+            <div className="modal-body mx-3 bg-white font-weight-bolder custom-border-20">
               <div className="d-flex justify-content-between">
                 {transactionById.name}
                 <span className={`${transactionById.type === "Income" ? "text-success" : "text-danger"}`}>

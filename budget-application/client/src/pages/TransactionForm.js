@@ -50,7 +50,7 @@ export default function TransactionForm() {
 
       <div className="d-flex flex-column align-items-center">
         <div className="col-lg-5 col-sm-12 mb-4">
-          <div className="card o-hidden border-0 shadow" style={{ borderRadius: "20px" }}>
+          <div className="card o-hidden border-0 shadow custom-border-20">
             <div className="card-body row py-2">
               <div
                 className={`col mr-1 text-center ${type === "Income" ? "bg-success text-white" : ""}`}
@@ -77,7 +77,7 @@ export default function TransactionForm() {
         </div>
 
         <div className="col-lg-8 col-sm-12 mb-4">
-          <div className="card o-hidden border-0 shadow-lg" style={{ borderRadius: "20px" }}>
+          <div className="card o-hidden border-0 shadow-lg custom-border-20">
             <div className="card-body">
               <form className="user" onSubmit={handleSubmit}>
                 <div className="form-group">

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router";
 import { fetchTransactionById } from "../store/actions/transactionAction";
+import rupiahFormatter from "../helpers/rupiahFormatter";
 
 export default function TransactionDetail() {
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ export default function TransactionDetail() {
           <p>
             {transactionById.name}
             <br />
-            {transactionById.amount}
+            {rupiahFormatter(transactionById.amount)}
             <br />
             {transactionById.date}
           </p>

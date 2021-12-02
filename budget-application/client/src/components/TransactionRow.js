@@ -1,5 +1,9 @@
+import { useDispatch } from "react-redux";
+import { fetchTransactionById } from "../store/actions/transactionAction";
+
 export default function TransactionRow(props) {
-  const { transaction, rupiahFormatter } = props;
+  const dispatch = useDispatch();
+  const { transaction, rupiahFormatter, fetch } = props;
 
   return (
     <div
@@ -7,7 +11,10 @@ export default function TransactionRow(props) {
       style={{ borderRadius: "20px", cursor: "pointer" }}
       onClick={(e) => {
         e.preventDefault();
+        dispatch(fetchTransactionById(transaction.id));
       }}
+      data-toggle="modal"
+      data-target="#transactionDetail"
     >
       <div>{transaction.name}</div>
       <div className="ml-auto d-flex flex-column align-items-end">

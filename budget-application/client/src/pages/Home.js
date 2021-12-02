@@ -1,21 +1,20 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
+import Navbar from "../components/Navbar";
 import TransactionRow from "../components/TransactionRow";
 import BalanceCard from "../components/BalanceCard";
-import { fetchTransactions } from "../store/actions/transactionAction";
+import { fetchTransactionById, fetchTransactions } from "../store/actions/transactionAction";
 import { fetchUserdata } from "../store/actions/userAction";
 import rupiahFormatter from "../helpers/rupiahFormatter";
-import profilePic from "../assets/profile/default.png";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSignOutAlt, faWallet, faArrowDown, faArrowUp } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { faWallet, faArrowDown, faArrowUp } from "@fortawesome/free-solid-svg-icons";
 
 export default function Home() {
   const history = useHistory();
   const dispatch = useDispatch();
   const { userdata, isLoading: loadingUser } = useSelector((state) => state.userReducer);
   const { transactions, isLoading: loadingTransactions } = useSelector((state) => state.transactionReducer);
+  const { transactionById, isLoading: loadingTransaction } = useSelector((state) => state.transactionReducer);
   const [filter, setFilter] = useState("all");
 
   useEffect(() => {
@@ -26,49 +25,20 @@ export default function Home() {
   return (
     <div style={{ paddingBottom: "10px" }}>
       <div className="container">
-        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow mt-4" style={{ borderRadius: "20px" }}>
-          <Link className="text-decoration-none" to="/">
-            <h5 className="mb-0 font-weight-bolder">Budget Application</h5>
-          </Link>
-
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item dropdown no-arrow">
-              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 text-dark">{userdata.dataUser?.name}</span>
-                <img class="img-profile rounded-circle" src={profilePic} />
-              </a>
-              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a
-                  class="dropdown-item"
-                  href="#"
-                  data-toggle="modal"
-                  data-target="#logoutModal"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    localStorage.removeItem("access_token");
-                    history.push("/login");
-                  }}
-                >
-                  <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
-                  Logout
-                </a>
-              </div>
-            </li>
-          </ul>
-        </nav>
+        <Navbar userdata={userdata} />
 
         <div className="row px-0 mb-2">
-          <BalanceCard amount={userdata.balance} colMd="col-md-12" rupiahFormatter={rupiahFormatter} bg="bg-primary" title="Balance" />
+          <BalanceCard amount={userdata.balance} colMd="col-md-12" rupiahFormatter={rupiahFormatter} bg="bg-primary" title="Balance" icon={faWallet} />
 
-          <BalanceCard amount={userdata.totalIncome} colMd="col-md-6" rupiahFormatter={rupiahFormatter} bg="bg-success" title="Total Income" />
+          <BalanceCard amount={userdata.totalIncome} colMd="col-md-6" rupiahFormatter={rupiahFormatter} bg="bg-success" title="Total Income" icon={faArrowDown} />
 
-          <BalanceCard amount={userdata.totalExpenses} colMd="col-md-6" rupiahFormatter={rupiahFormatter} bg="bg-danger" title="Total Expenses" />
+          <BalanceCard amount={userdata.totalExpenses} colMd="col-md-6" rupiahFormatter={rupiahFormatter} bg="bg-danger" title="Total Expenses" icon={faArrowUp} />
         </div>
 
-        <div className="d-flex align-items-center mb-4">
-          <span className="h5 font-weight-bolder mb-0">Transactions</span>
-          <div className="ml-auto">
-            <div class="btn-group shadow">
+        <div className="d-flex align-items-center justify-content-center mb-4">
+          <span className="h5 d-none d-md-inline font-weight-bolder mb-0">Transactions</span>
+          <div className="ml-md-auto">
+            <div className="btn-group shadow">
               <button
                 type="button"
                 onClick={(e) => {
@@ -76,7 +46,8 @@ export default function Home() {
                   setFilter("all");
                   dispatch(fetchTransactions());
                 }}
-                className={`btn btn-dark shadow-none ${filter === "all" ? "active" : ""}`}
+                className={`btn btn-dark shadow-none border-0 ${filter === "all" ? "active" : ""}`}
+                style={{ borderRadius: "20px 0 0 20px" }}
               >
                 All
               </button>
@@ -87,7 +58,7 @@ export default function Home() {
                   setFilter("income");
                   dispatch(fetchTransactions({ type: "Income" }));
                 }}
-                className={`btn btn-dark shadow-none ${filter === "income" ? "active" : ""}`}
+                className={`btn btn-dark shadow-none border-0 ${filter === "income" ? "active" : ""}`}
               >
                 Income
               </button>
@@ -98,7 +69,8 @@ export default function Home() {
                   setFilter("expenses");
                   dispatch(fetchTransactions({ type: "Expenses" }));
                 }}
-                className={`btn btn-dark shadow-none ${filter === "expenses" ? "active" : ""}`}
+                className={`btn btn-dark shadow-none border-0 ${filter === "expenses" ? "active" : ""}`}
+                style={{ borderRadius: "0 20px 20px 0" }}
               >
                 Expenses
               </button>
@@ -108,8 +80,26 @@ export default function Home() {
 
         <div className="mb-5">
           {transactions.map((transaction) => {
-            return <TransactionRow transaction={transaction} key={transaction.id} rupiahFormatter={rupiahFormatter} />;
+            return <TransactionRow transaction={transaction} key={transaction.id} rupiahFormatter={rupiahFormatter} fetch={fetchTransactionById} />;
           })}
+        </div>
+      </div>
+
+      <div className="modal fade" id="transactionDetail" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal-dialog modal-dialog-centered" role="document">
+          <div className="modal-content border-0" style={{ borderRadius: "20px", backgroundColor: "#ede9f0" }}>
+            <div className="modal-header border-0">
+              <h5 className="modal-title font-weight-bolder">Transaction Detail</h5>
+            </div>
+            <div className="modal-body mx-3 bg-white" style={{ borderRadius: "20px" }}>
+              {transactionById.name}
+            </div>
+            <div className="modal-footer border-0">
+              <button type="button" className="btn btn-secondary rounded-pill" data-dismiss="modal">
+                Close
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -118,7 +108,7 @@ export default function Home() {
           className="btn btn-primary rounded-pill"
           onClick={(e) => {
             e.preventDefault();
-            history.push("/addTransaction");
+            history.push({ pathname: "/addTransaction", state: { userdata } });
           }}
         >
           New Transaction

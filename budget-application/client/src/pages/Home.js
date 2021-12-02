@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { fetchTransactionById, fetchTransactions } from "../store/actions/transactionAction";
+import { fetchUserdata } from "../store/actions/userAction";
+import { faWallet, faArrowDown, faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import Navbar from "../components/Navbar";
 import TransactionRow from "../components/TransactionRow";
 import BalanceCard from "../components/BalanceCard";
-import { fetchTransactionById, fetchTransactions } from "../store/actions/transactionAction";
-import { fetchUserdata } from "../store/actions/userAction";
 import rupiahFormatter from "../helpers/rupiahFormatter";
-import { faWallet, faArrowDown, faArrowUp } from "@fortawesome/free-solid-svg-icons";
 
 export default function Home() {
   const history = useHistory();
@@ -16,6 +16,7 @@ export default function Home() {
   const { transactions, isLoading: loadingTransactions } = useSelector((state) => state.transactionReducer);
   const { transactionById, isLoading: loadingTransaction } = useSelector((state) => state.transactionReducer);
   const [filter, setFilter] = useState("all");
+  const [sort, setSort] = useState("DESC");
 
   useEffect(() => {
     dispatch(fetchTransactions());
@@ -37,43 +38,74 @@ export default function Home() {
 
         <div className="d-flex align-items-center justify-content-center mb-4">
           <span className="h5 d-none d-md-inline font-weight-bolder mb-0">Transactions</span>
-          <div className="ml-md-auto">
-            <div className="btn-group shadow">
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setFilter("all");
-                  dispatch(fetchTransactions());
-                }}
-                className={`btn btn-dark shadow-none border-0 ${filter === "all" ? "active" : ""}`}
-                style={{ borderRadius: "20px 0 0 20px" }}
-              >
-                All
-              </button>
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setFilter("income");
-                  dispatch(fetchTransactions({ type: "Income" }));
-                }}
-                className={`btn btn-dark shadow-none border-0 ${filter === "income" ? "active" : ""}`}
-              >
-                Income
-              </button>
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setFilter("expenses");
-                  dispatch(fetchTransactions({ type: "Expenses" }));
-                }}
-                className={`btn btn-dark shadow-none border-0 ${filter === "expenses" ? "active" : ""}`}
-                style={{ borderRadius: "0 20px 20px 0" }}
-              >
-                Expenses
-              </button>
+          <div className="ml-md-auto d-flex flex-sm-row flex-column align-items-center">
+            <div className="mb-2 mb-sm-0">
+              <div className="btn-group shadow">
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setFilter("all");
+                    dispatch(fetchTransactions());
+                  }}
+                  className={`btn btn-dark shadow-none border-0 ${filter === "all" ? "active" : ""}`}
+                  style={{ borderRadius: "20px 0 0 20px" }}
+                >
+                  All
+                </button>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setFilter("income");
+                    dispatch(fetchTransactions({ type: "Income" }));
+                  }}
+                  className={`btn btn-dark shadow-none border-0 ${filter === "income" ? "active" : ""}`}
+                >
+                  Income
+                </button>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setFilter("expenses");
+                    dispatch(fetchTransactions({ type: "Expenses" }));
+                  }}
+                  className={`btn btn-dark shadow-none border-0 ${filter === "expenses" ? "active" : ""}`}
+                  style={{ borderRadius: "0 20px 20px 0" }}
+                >
+                  Expenses
+                </button>
+              </div>
+            </div>
+
+            <div className="ml-2">
+              <div className="btn-group shadow">
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setSort("DESC");
+                    dispatch(fetchTransactions({ sort: "DESC" }));
+                  }}
+                  className={`btn btn-info shadow-none border-0 ${sort === "DESC" ? "active" : ""}`}
+                  style={{ borderRadius: "20px 0 0 20px" }}
+                >
+                  Newest
+                </button>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setSort("ASC");
+                    dispatch(fetchTransactions({ sort: "ASC" }));
+                  }}
+                  className={`btn btn-info shadow-none border-0 ${sort === "ASC" ? "active" : ""}`}
+                  style={{ borderRadius: "0 20px 20px 0" }}
+                >
+                  Oldest
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -91,8 +123,23 @@ export default function Home() {
             <div className="modal-header border-0">
               <h5 className="modal-title font-weight-bolder">Transaction Detail</h5>
             </div>
-            <div className="modal-body mx-3 bg-white" style={{ borderRadius: "20px" }}>
-              {transactionById.name}
+            <div className="modal-body mx-3 bg-white font-weight-bolder" style={{ borderRadius: "20px" }}>
+              <div className="d-flex justify-content-between">
+                {transactionById.name}
+                <span className={`${transactionById.type === "Income" ? "text-success" : "text-danger"}`}>
+                  {transactionById.type === "Income" ? "+" : "-"}
+                  {rupiahFormatter(transactionById.amount)}
+                </span>
+              </div>
+              <div>
+                Note: <br />
+                {transactionById.note ? transactionById.note : "-"}
+              </div>
+              <div>
+                Added on:
+                <br />
+                {transactionById.date?.split("T")[0]}
+              </div>
             </div>
             <div className="modal-footer border-0">
               <button type="button" className="btn btn-secondary rounded-pill" data-dismiss="modal">

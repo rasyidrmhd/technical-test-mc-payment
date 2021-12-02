@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import Navbar from "../components/Navbar";
 import { postTransaction } from "../store/actions/transactionAction";
+import Navbar from "../components/Navbar";
 
 export default function TransactionForm() {
   const location = useLocation();

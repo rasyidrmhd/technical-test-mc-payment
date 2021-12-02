@@ -6,7 +6,6 @@ import PrivatePage from "./navigation-guard/PrivatePage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
-import TransactionDetail from "./pages/TransactionDetail";
 import TransactionForm from "./pages/TransactionForm";
 import NotFound from "./pages/NotFound";
 

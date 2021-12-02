@@ -39,7 +39,7 @@ export default function Register() {
 
   return (
     <div className="row justify-content-center align-items-center" style={{ minHeight: "100vh", width: "100vw" }}>
-      <div className="col-lg-5 col-sm-10">
+      <div className="col-md-5 col-10">
         <div className="card o-hidden border-0 shadow-lg" style={{ borderRadius: "20px" }}>
           <div className="card-body p-0">
             <div className="p-5">

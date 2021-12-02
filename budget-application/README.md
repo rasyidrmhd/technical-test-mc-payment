@@ -45,8 +45,8 @@ Start React app in localhost port 3001
 
 ## Deployment
 
-server: https://budget-application-api.herokuapp.com\
-client: https://my-budget-application.web.app
+server: https://budget-application-api.herokuapp.com \
+client: https://my-budget-application.web.app \
 Dummy account:\
 username: acit / email: acit@mail.com
 password: 12345678

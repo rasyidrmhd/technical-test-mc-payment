@@ -21,6 +21,10 @@ Note: Before run this command, make sure you already change your username and pa
 
 Create all tables
 
+### `touch .env`
+
+Create .env file and fill JWT_SECRET environment variable with any string
+
 ### `npx nodemon app`
 
 Running the server in localhost port 3000

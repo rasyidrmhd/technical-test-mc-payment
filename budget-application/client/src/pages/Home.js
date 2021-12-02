@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import TransactionRow from "../components/TransactionRow";
+import BalanceCard from "../components/BalanceCard";
 import { fetchTransactions } from "../store/actions/transactionAction";
 import { fetchUserdata } from "../store/actions/userAction";
 import rupiahFormatter from "../helpers/rupiahFormatter";
@@ -55,54 +56,13 @@ export default function Home() {
             </li>
           </ul>
         </nav>
+
         <div className="row px-0 mb-2">
-          <div className="col-xl-4 col-md-12 mb-2">
-            <div className="card bg-primary shadow h-100 py-1" style={{ borderRadius: "20px" }}>
-              <div className="card-body text-white">
-                <div className="row no-gutters align-items-center">
-                  <div className="col mr-2">
-                    <div className="text-xs font-weight-bold text-uppercase mb-1">Balance</div>
-                    <div className="h5 mb-0 font-weight-bold">{rupiahFormatter(userdata.balance)}</div>
-                  </div>
-                  <div className="col-auto">
-                    <FontAwesomeIcon icon={faWallet} size="2x" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <BalanceCard amount={userdata.balance} colMd="col-md-12" rupiahFormatter={rupiahFormatter} bg="bg-primary" title="Balance" />
 
-          <div className="col-xl-4 col-md-6 mb-2">
-            <div className="card bg-success shadow h-100 py-1" style={{ borderRadius: "20px" }}>
-              <div className="card-body text-white">
-                <div className="row no-gutters align-items-center">
-                  <div className="col mr-2">
-                    <div className="text-xs font-weight-bold text-uppercase mb-1">Total Income</div>
-                    <div className="h5 mb-0 font-weight-bold">{rupiahFormatter(userdata.totalIncome)}</div>
-                  </div>
-                  <div className="col-auto">
-                    <FontAwesomeIcon icon={faArrowUp} size="2x" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <BalanceCard amount={userdata.totalIncome} colMd="col-md-6" rupiahFormatter={rupiahFormatter} bg="bg-success" title="Total Income" />
 
-          <div className="col-xl-4 col-md-6 mb-2">
-            <div className="card bg-danger shadow h-100 py-1" style={{ borderRadius: "20px" }}>
-              <div className="card-body text-white">
-                <div className="row no-gutters align-items-center">
-                  <div className="col mr-2">
-                    <div className="text-xs font-weight-bold text-uppercase mb-1">Total Expenses</div>
-                    <div className="h5 mb-0 font-weight-bold ">{rupiahFormatter(userdata.totalExpenses)}</div>
-                  </div>
-                  <div className="col-auto">
-                    <FontAwesomeIcon icon={faArrowDown} size="2x" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <BalanceCard amount={userdata.totalExpenses} colMd="col-md-6" rupiahFormatter={rupiahFormatter} bg="bg-danger" title="Total Expenses" />
         </div>
 
         <div className="d-flex align-items-center mb-4">

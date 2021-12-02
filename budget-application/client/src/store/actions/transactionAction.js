@@ -23,7 +23,7 @@ export function setLoadingTransaction(payload) {
   };
 }
 
-export function fetchTransactions() {
+export function fetchTransactions(params = {}) {
   const access_token = localStorage.getItem("access_token");
   return (dispatch, getState) => {
     dispatch(setLoadingTransaction(true));
@@ -33,6 +33,7 @@ export function fetchTransactions() {
         headers: {
           access_token,
         },
+        params,
       })
         .then((response) => {
           dispatch(setTransactions(response.data));

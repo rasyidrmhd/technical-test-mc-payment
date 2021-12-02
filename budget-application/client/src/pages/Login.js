@@ -35,7 +35,7 @@ export default function Login() {
   };
 
   return (
-    <>
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100vh" }}>
       {location.state ? <span>{location.state.message}</span> : ""}
       <form onSubmit={handleSubmit}>
         <label>Username / Email</label>
@@ -55,14 +55,17 @@ export default function Login() {
       ) : (
         ""
       )}
-      <button
-        onClick={(e) => {
-          e.preventDefault();
-          history.push("/register");
-        }}
-      >
-        Register
-      </button>
-    </>
+      <div>
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            history.push("/register");
+          }}
+          style={{ width: "100%" }}
+        >
+          Register
+        </button>
+      </div>
+    </div>
   );
 }

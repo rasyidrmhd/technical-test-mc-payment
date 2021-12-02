@@ -39,6 +39,34 @@ export default function Home() {
           </>
         )}
       </span>
+      <br />
+      <button
+        type="button"
+        onClick={(e) => {
+          e.preventDefault();
+          dispatch(fetchTransactions());
+        }}
+      >
+        All
+      </button>
+      <button
+        type="button"
+        onClick={(e) => {
+          e.preventDefault();
+          dispatch(fetchTransactions({ type: "Income" }));
+        }}
+      >
+        Income
+      </button>
+      <button
+        type="button"
+        onClick={(e) => {
+          e.preventDefault();
+          dispatch(fetchTransactions({ type: "Expenses" }));
+        }}
+      >
+        Expenses
+      </button>
       <p>
         {loadingTransactions
           ? "Loading..."

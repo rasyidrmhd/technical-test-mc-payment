@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useHistory, useLocation } from "react-router";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { login } from "../store/actions/userAction";
 
 export default function Login() {
@@ -26,7 +26,7 @@ export default function Login() {
     e.preventDefault();
     dispatch(login(inputLogin))
       .then((response) => {
-        localStorage.setItem("access_token", response);
+        localStorage.setItem("access_token", response.access_token);
         history.push("/");
       })
       .catch((err) => {
@@ -35,35 +35,44 @@ export default function Login() {
   };
 
   return (
-    <>
-      <h1>Hello from Login</h1>
-      {location.state ? <span>{location.state.message}</span> : ""}
-      <form onSubmit={handleSubmit}>
-        <label>Username / Email</label>
-        <br />
-        <input type="text" placeholder="Enter you username or email" autoComplete="off" name="email" defaultValue={inputLogin.email} onChange={handleInputLogin} /> <br />
-        <label>Password</label>
-        <br />
-        <input type="password" placeholder="Enter your strong password" autoComplete="off" name="password" defaultValue={inputLogin.password} onChange={handleInputLogin} />
-        <br />
-        <button type="submit">Login</button>
-      </form>
-      {errors ? (
-        <>
-          <span>{errors}</span>
-          <br />
-        </>
-      ) : (
-        ""
-      )}
-      <button
-        onClick={(e) => {
-          e.preventDefault();
-          history.push("/register");
-        }}
-      >
-        Register
-      </button>
-    </>
+    <div className="row justify-content-center align-items-center" style={{ minHeight: "100vh", width: "100vw" }}>
+      <div className="col-md-5 col-10">
+        <div className="card o-hidden border-0 shadow-lg custom-border-20">
+          <div className="card-body p-0">
+            <div className="p-5">
+              <div className="text-center">
+                <h1 className="h2 text-primary font-weight-bolder">Budget Application</h1>
+                {errors ? (
+                  <>
+                    <span className="badge badge-danger">{errors}</span>
+                  </>
+                ) : (
+                  ""
+                )}
+              </div>
+              <form className="mt-4 mb-2 user" onSubmit={handleSubmit}>
+                <div className="form-group">
+                  <label htmlFor="email">Username / Email</label>
+                  <input type="text" className="form-control shadow-none rounded-pill" autoComplete="off" placeholder="Enter your unique username or email" name="email" id="email" value={inputLogin.email} onChange={handleInputLogin} />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="password">Password</label>
+                  <input type="password" className="form-control shadow-none rounded-pill" autoComplete="off" placeholder="Enter you strong password" name="password" id="password" value={inputLogin.password} onChange={handleInputLogin} />
+                </div>
+                <button type="submit" className="btn btn-primary btn-block rounded-pill">
+                  Login
+                </button>
+              </form>
+              <div className="text-center">
+                Dont't have account yet? Click{" "}
+                <Link className="text-decoration-none text-primary" to="/register">
+                  here
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

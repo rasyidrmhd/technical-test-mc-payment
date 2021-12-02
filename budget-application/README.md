@@ -21,6 +21,10 @@ Note: Before run this command, make sure you already change your username and pa
 
 Create all tables
 
+### `touch .env`
+
+Create .env file and fill JWT_SECRET environment variable with any string
+
 ### `npx nodemon app`
 
 Running the server in localhost port 3000
@@ -30,6 +34,10 @@ Running the server in localhost port 3000
 ### `cd client`
 
 Move to client directory
+
+### `touch .env`
+
+Create .env file and fill REACT_APP_BASE_URL environment variable with http://localhost:3000
 
 ### `npm start`
 

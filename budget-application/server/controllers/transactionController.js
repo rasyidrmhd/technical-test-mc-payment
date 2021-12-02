@@ -3,11 +3,18 @@ const { Transaction } = require("../models");
 class TransactionController {
   static async getTransactions(req, res, next) {
     try {
-      const { sort } = req.query;
-      let option = { order: [["date", "DESC"]] };
+      const { sort, type } = req.query;
+      let option = {
+        where: { UserId: req.user.id },
+        order: [["date", "DESC"]],
+      };
 
       if (sort) {
         option.order = [["date", sort]];
+      }
+
+      if (type) {
+        option.where.type = type;
       }
 
       const transactions = await Transaction.findAll(option);
@@ -47,7 +54,7 @@ class TransactionController {
       }
 
       if (amount <= 0) {
-        throw { name: "InvalidAmount" };
+        throw { name: "invalidAmount" };
       }
 
       const createTransaction = await Transaction.create({

@@ -60,6 +60,8 @@ class UserController {
   static async getUserData(req, res, next) {
     try {
       let balance = 0;
+      let totalIncome = 0;
+      let totalExpenses = 0;
       const getLastBalance = await Transaction.findAll({
         where: { UserId: req.user.id },
         order: [["id", "DESC"]],
@@ -68,9 +70,11 @@ class UserController {
 
       if (getLastBalance[0]) {
         balance = getLastBalance[0].current_balance;
+        totalIncome = await Transaction.sum("amount", { where: { type: "Income", UserId: req.user.id } });
+        totalExpenses = await Transaction.sum("amount", { where: { type: "Expenses", UserId: req.user.id } });
       }
 
-      res.status(200).json({ dataUser: req.user, balance });
+      res.status(200).json({ dataUser: req.user, balance, totalIncome, totalExpenses });
     } catch (err) {
       console.log(err);
       next(err);

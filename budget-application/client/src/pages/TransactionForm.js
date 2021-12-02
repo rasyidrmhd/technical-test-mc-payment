@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 import { postTransaction } from "../store/actions/transactionAction";
 
 export default function TransactionForm() {

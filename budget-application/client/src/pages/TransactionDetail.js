@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory, useParams } from "react-router";
+import { useHistory, useParams } from "react-router-dom";
 import { fetchTransactionById } from "../store/actions/transactionAction";
 import rupiahFormatter from "../helpers/rupiahFormatter";
 
@@ -29,7 +29,6 @@ export default function TransactionDetail() {
           </p>
         </>
       )}
-      <br />
       <button
         onClick={(e) => {
           e.preventDefault();

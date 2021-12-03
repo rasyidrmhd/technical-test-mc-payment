@@ -21,7 +21,7 @@ const errorHandler = (err, req, res, next) => {
       res.status(400).json({ message: ["Amount is invalid"] });
       break;
     case "insufficientBalance":
-      res.status(400).json({ message: "Your balance is not enough" });
+      res.status(400).json({ message: ["Your balance is not enough"] });
       break;
     case "invalid":
       res.status(401).json({ message: "Incorrect email / username or password" });
